@@ -1,0 +1,133 @@
+/* Main container */
+.memory-gallery {
+  padding: 2rem 0;
+}
+
+/* Header section */
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.gallery-header h2 {
+  color: #1d1d1f;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/* Add memory button */
+.add-memory-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-memory-btn:hover {
+  transform: scale(1.05);
+  background-color: #333;
+}
+
+.add-memory-btn:active {
+  transform: scale(0.95);
+}
+
+/* Memory grid */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem;
+  color: #86868b;
+  background-color: #ffffff;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state */
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.loading-card {
+  height: 280px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 12px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .memory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  
+  .memory-gallery {
+    padding: 1rem 0;
+  }
+  
+  .gallery-header {
+    padding: 0 0.5rem;
+  }
+  
+  .gallery-header h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .gallery-header h2 {
+    color: #f5f5f7;
+  }
+  
+  .add-memory-btn {
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+  }
+  
+  .loading-card {
+    background: linear-gradient(90deg, #2c2c2e 25%, #3a3a3c 50%, #2c2c2e 75%);
+  }
+} 
