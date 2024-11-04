@@ -1,31 +1,51 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import openai  # or your preferred chatbot library
+import pandas as pd
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CORS(app)  # This allows your React app to communicate with the Flask server
+CORS(app)
 
-# Configure OpenAI (if using)
-openai.api_key = 'your-api-key'
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
 
-@app.route('/api/chat', methods=['POST'])
-def chat():
-    data = request.json
-    user_message = data.get('message')
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/api/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
     
-    try:
-        # Example using OpenAI
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "user", "content": user_message}
-            ]
-        )
-        bot_response = response.choices[0].message.content
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
         
-        return jsonify({"response": bot_response})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        try:
+            df = pd.read_excel(filepath)
+            data = {
+                'columns': df.columns.tolist(),
+                'data': df.values.tolist()
+            }
+            return jsonify(data)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+        finally:
+            # Clean up the uploaded file
+            os.remove(filepath)
+    
+    return jsonify({'error': 'Invalid file type'}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000) 
+    app.run(debug=True) 
