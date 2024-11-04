@@ -5,8 +5,10 @@ import './Navigation.css';
 function Navigation() {
   return (
     <nav className="navigation">
-      <Link to="/">Home</Link>
-      <Link to="/memories">Memories</Link>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/enhance">Studio</Link></li>
+      </ul>
     </nav>
   );
 }

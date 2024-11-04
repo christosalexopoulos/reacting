@@ -1,14 +1,55 @@
 .header {
-  background-color: #ffffff;
-  padding: 1rem 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: rgba(10, 25, 47, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
 }
 
-.logo h1 {
-  color: #1d1d1f;
-  font-size: 1.5rem;
-  font-weight: 500;
+.logo {
+  font-size: 1.8rem;
+  color: #64FFDA;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.navigation {
+  display: flex;
+  gap: 3rem;
+}
+
+.navigation a {
+  color: #8892B0;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.navigation a:hover {
+  color: #64FFDA;
+}
+
+.navigation a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -4px;
+  left: 0;
+  background-color: #64FFDA;
+  transition: width 0.3s ease;
+}
+
+.navigation a:hover::after {
+  width: 100%;
 } 
